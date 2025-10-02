@@ -1,2 +1,75 @@
 @import "tailwindcss";
 
+:root {
+  --anim-blink-duration: 0.8s;
+  --anim-loading-duration: 0.8s;
+  --anum-ease: ease;
+}
+
+/* for user who prefer reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-blink,
+  .animate-loading-bar,
+  .reveal {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+@layer utilities {
+
+  @keyframes blink {
+    0%, 100% {opacity: 1;}
+    50%      {opacity: 0;}
+  }
+  .animate-blink {
+    animation: blink var(--anim-blink-duration) steps(1, end) infinte;
+    will-change: opacity;
+  }
+  @keyframes loading {
+    0% {transform: translate3d(-100%,0,0);}
+    100% {transform: translate3d(100%,0,0);}
+  }
+  .animate-loading-bar {
+    animation: loading var(--anim-loading-duration) var(--anim-ease) infinte;
+    will-change: transform;
+  }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translaterY(20px);
+  transition: opacity 0.7s var(--anim-ease), transform 0.7s var(--anim-ease);
+  will-change: opacity, transform;
+}
+
+.revel.vidible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal {
+  transition-duration: var(--reveal-duration, 0.7s);
+  transition-delay: var(--reveal-delay, 0s);
+}
+
+.loading {
+  postion: relative;
+  overflow: hidden;
+  background: #eee;
+}
+
+.loading::before {
+  content: "";
+  position: absoulte;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 30%;
+  transform: translate3d(-100%,0,0);
+  animation: loading var(--anim-loading-duration) var(--anim-ease) infinte;
+  will-change: transform;
+}
+
+
